@@ -1,7 +1,6 @@
 #include <iostream>
 
 int main() {
-	printf("POO\n");
-
-	return 0;
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
 }
