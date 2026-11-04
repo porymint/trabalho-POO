@@ -8,7 +8,6 @@ add_executable(TP main.cpp
         Fabrica.cpp
         Posicao.cpp
         Comandos.cpp
-        ComandosConcretos.cpp
         Engenheiro.cpp
         Item.cpp
         Maquina.cpp
