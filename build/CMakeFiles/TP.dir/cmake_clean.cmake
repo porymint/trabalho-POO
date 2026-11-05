@@ -1,0 +1,42 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/TP.dir/link.d"
+  "CMakeFiles/TP.dir/Comandos.cpp.o"
+  "CMakeFiles/TP.dir/Comandos.cpp.o.d"
+  "CMakeFiles/TP.dir/ComandosCriacao.cpp.o"
+  "CMakeFiles/TP.dir/ComandosCriacao.cpp.o.d"
+  "CMakeFiles/TP.dir/ComandosEngenheiros.cpp.o"
+  "CMakeFiles/TP.dir/ComandosEngenheiros.cpp.o.d"
+  "CMakeFiles/TP.dir/ComandosGerais.cpp.o"
+  "CMakeFiles/TP.dir/ComandosGerais.cpp.o.d"
+  "CMakeFiles/TP.dir/ComandosListagem.cpp.o"
+  "CMakeFiles/TP.dir/ComandosListagem.cpp.o.d"
+  "CMakeFiles/TP.dir/ComandosMaquinas.cpp.o"
+  "CMakeFiles/TP.dir/ComandosMaquinas.cpp.o.d"
+  "CMakeFiles/TP.dir/ComandosTempo.cpp.o"
+  "CMakeFiles/TP.dir/ComandosTempo.cpp.o.d"
+  "CMakeFiles/TP.dir/Ecra.cpp.o"
+  "CMakeFiles/TP.dir/Ecra.cpp.o.d"
+  "CMakeFiles/TP.dir/Engenheiro.cpp.o"
+  "CMakeFiles/TP.dir/Engenheiro.cpp.o.d"
+  "CMakeFiles/TP.dir/Fabrica.cpp.o"
+  "CMakeFiles/TP.dir/Fabrica.cpp.o.d"
+  "CMakeFiles/TP.dir/Interpretador.cpp.o"
+  "CMakeFiles/TP.dir/Interpretador.cpp.o.d"
+  "CMakeFiles/TP.dir/Item.cpp.o"
+  "CMakeFiles/TP.dir/Item.cpp.o.d"
+  "CMakeFiles/TP.dir/Maquina.cpp.o"
+  "CMakeFiles/TP.dir/Maquina.cpp.o.d"
+  "CMakeFiles/TP.dir/MaquinasDerivadas.cpp.o"
+  "CMakeFiles/TP.dir/MaquinasDerivadas.cpp.o.d"
+  "CMakeFiles/TP.dir/Posicao.cpp.o"
+  "CMakeFiles/TP.dir/Posicao.cpp.o.d"
+  "CMakeFiles/TP.dir/Simulador.cpp.o"
+  "CMakeFiles/TP.dir/Simulador.cpp.o.d"
+  "TP"
+  "TP.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/TP.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
