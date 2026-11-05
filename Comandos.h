@@ -4,5 +4,15 @@
 
 #ifndef TP_COMANDOS_H
 #define TP_COMANDOS_H
+#include <string>
+
+class Fabrica;
+
+class Comando {
+public: // <-- ESTA PALAVRA É OBRIGATÓRIA AQUI!
+    virtual ~Comando() = default;
+    virtual void executa(Fabrica& fabrica, const std::string& argumentos) = 0;
+};
+
 
 #endif //TP_COMANDOS_H
