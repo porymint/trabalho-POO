@@ -1,18 +1,15 @@
 #include <iostream>
 #include <string>
 #include "Ecra.h"
+#include "Fabrica.h"
 #include "Interpretador.h"
 
 using namespace std;
 
-// Mock (simulacro) da Fábrica apenas para o teu código compilar
-// enquanto o Membro B não te entrega a classe dele.
-class Fabrica {};
-
 void desenhaInterfaceBase(Ecra& ecra) {
     // Dimensões máximas exigidas pelo enunciado para a fábrica
     int linhasFabrica = 26;
-    int colunasFabrica = 26;
+    int colunasFabrica = 26; 
 
     // Coordenadas de onde a matriz da fábrica vai começar a ser desenhada no ecrã
     int linhaInicio = 3;
@@ -56,7 +53,7 @@ void desenhaInterfaceBase(Ecra& ecra) {
 }
 int main() {
     Ecra ecra;
-    Fabrica fabrica; // O simulacro que criámos há pouco
+    Fabrica fabrica(26,26);
     string linha;
 
     // --- PREPARAÇÃO DO ECRÃ INICIAL ---
@@ -80,6 +77,7 @@ int main() {
         Comando* cmd = Interpretador::processaLinha(linha, argumentos);
 
         if (cmd != nullptr) {
+
             // POLIMORFISMO: Executa a ação do comando instanciado
             cmd->executa(fabrica, argumentos);
 
