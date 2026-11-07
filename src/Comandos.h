@@ -9,7 +9,7 @@
 class Fabrica;
 
 class Comando {
-public: // <-- ESTA PALAVRA É OBRIGATÓRIA AQUI!
+public:
     virtual ~Comando() = default;
     virtual void executa(Fabrica& fabrica, const std::string& argumentos) = 0;
 };
