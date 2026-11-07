@@ -3,6 +3,7 @@
 //
 
 #include "Ecra.h"
+#include "Fabrica.h"
 #include <iostream>
 
 
@@ -70,4 +71,22 @@ void Ecra::desenhaEcra(int linha, int coluna, int altura, int largura) {
     posicionaCursor(linha, coluna + largura - 1); escreve('+');
     posicionaCursor(linha + altura - 1, coluna); escreve('+');
     posicionaCursor(linha + altura - 1, coluna + largura - 1); escreve('+');
+}
+
+void Ecra::desenhaFabrica(const Fabrica& fabrica, int linhaInicio, int colunaInicio) {
+    int linhas = fabrica.getLinhas();
+    int colunas = fabrica.getColunas();
+
+    // Percorre a matriz da fábrica gerada pelo teu colega
+    for (int l = 0; l < linhas; ++l) {
+        for (int c = 0; c < colunas; ++c) {
+            const Terreno* t = fabrica.getTerreno(l, c);
+
+            if (t != nullptr) {
+                // Posiciona o cursor somando a margem da caixa do ecrã
+                posicionaCursor(linhaInicio + l, colunaInicio + c);
+                escreve(t->getTipo());
+            }
+        }
+    }
 }

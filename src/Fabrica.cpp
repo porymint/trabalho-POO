@@ -1,60 +1,122 @@
 //
 // Created by Pedro Freitas on 03/11/2026.
 //
-
 #include "Fabrica.h"
-#include "Comandos.h"
 #include "Settings.h"
 #include <fstream>
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
-Fabrica::Fabrica(int nl, int nc) : linhas(nl), colunas(nc) {
+using namespace std;
 
+void Fabrica::alocaMemoria(int nl, int nc) {
+    linhas = nl;
+    colunas = nc;
+    if (linhas > 0 && colunas > 0) {
+        // Aloca a grelha toda num único bloco contínuo de memória
+        grelha = new Terreno[linhas * colunas];
+    } else {
+        grelha = nullptr;
+    }
+}
+
+void Fabrica::libertaMemoria() {
+    if (grelha != nullptr) {
+        delete[] grelha;
+        grelha = nullptr;
+    }
+}
+
+Fabrica::Fabrica(int nl, int nc) {
+    alocaMemoria(nl, nc);
+    srand(time(NULL));
+}
+
+Fabrica::~Fabrica() {
+    libertaMemoria();
 }
 
 bool Fabrica::posicaoValida(int l, int c) const {
     return l >= 0 && l < linhas && c >= 0 && c < colunas;
 }
 
-const Terreno& Fabrica::getTerreno(int l, int c) const {
-    return grelha[l][c];
+const Terreno* Fabrica::getTerreno(int l, int c) const {
+    if (posicaoValida(l, c)) {
+        // MATEMÁTICA DO PONTEIRO SIMPLES: (linha * total_colunas) + coluna
+        int indice = (l * colunas) + c;
+        return &grelha[indice];
+    }
+    return nullptr;
 }
 
-void Fabrica::gerarAleatorio() {
-    srand(time(NULL));
+bool Fabrica::criarAleatoria(int nl, int nc) {
+    // Valida os limites usando o ficheiro Settings.h
+    if (nl > Settings::MAX_LINHAS || nc > Settings::MAX_COLUNAS || nl <= 0 || nc <= 0) {
+        return false;
+    }
 
-    int linhaRand = rand() % linhas; 
-    int colunaRand = rand() % colunas;
+    libertaMemoria(); // Apaga a fábrica antiga
+    alocaMemoria(nl, nc); // Cria a nova
+
+    for (int i = 0; i < linhas; ++i) {
+        for (int j = 0; j < colunas; ++j) {
+            int indice = (i * colunas) + j; // A fórmula matemática
+            int chance = rand() % 100; // Gera probabilidade de 0 a 99
+
+            if (chance < 5) {
+                grelha[indice].setTipo('#'); // 5% chance de Cratera
+            } else if (chance < 15) {
+                grelha[indice].setTipo('%'); // 10% chance de Ferro
+
+                // Calcula quantidade aleatória entre o MIN e MAX
+                int quantidade = Settings::MIN_MATERIA_DEPOSITO +
+                                 rand() % (Settings::MAX_MATERIA_DEPOSITO - Settings::MIN_MATERIA_DEPOSITO + 1);
+                grelha[indice].setQuantidade(quantidade);
+            } else {
+                grelha[indice].setTipo('.'); // 85% de ser solo normal
+            }
+        }
+    }
+    return true;
 }
 
-bool Fabrica::carregarDeFicheiro(const std::string& nomeFicheiro) {
-    std::ifstream file(nomeFicheiro);
+bool Fabrica::carregarDeFicheiro(const string& nomeFicheiro) {
+    ifstream file(nomeFicheiro);
     if (!file.is_open()) {
         return false;
     }
 
     int nl, nc;
-    if (!(file >> nl >> nc)) return false;
+    if (!(file >> nl >> nc)) {
+        return false; // Falhou a ler as dimensões na primeira linha
+    }
 
-    if (nl > 26 || nc > 26 || nl <= 0 || nc <= 0) {
+    // Valida as dimensões
+    if (nl > Settings::MAX_LINHAS || nc > Settings::MAX_COLUNAS || nl <= 0 || nc <= 0) {
         return false;
     }
 
-    linhas = nl;
-    colunas = nc;
+    libertaMemoria();
+    alocaMemoria(nl, nc);
 
-
-    std::string linhaTexto;
-    std::getline(file, linhaTexto);
+    string linhaTexto;
+    getline(file, linhaTexto);
 
     for (int i = 0; i < linhas; ++i) {
-        if (!std::getline(file, linhaTexto)) return false;
+        if (!getline(file, linhaTexto)) {
+            return false;
+        }
+
         for (int j = 0; j < colunas && j < linhaTexto.size(); ++j) {
+            int indice = (i * colunas) + j;
             char c = linhaTexto[j];
+
             if (c == '.' || c == '#' || c == '%' || c == '$' || c == '~') {
-                grelha[i][j].tipo = c;
+                grelha[indice].setTipo(c);
+
                 if (c == '%' || c == '$' || c == '~') {
-                    grelha[i][j].quantidade = 50;
+                    grelha[indice].setQuantidade(50);
                 }
             } else {
                 return false;

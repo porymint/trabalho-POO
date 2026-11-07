@@ -6,9 +6,9 @@
 #define TP_COMANDOSCRIACAO_H
 #include "Comandos.h"
 
-class fabrica : public Comando {
+class ComandoFabrica : public Comando {
 public:
-	static Comando* fabrica(int linhas, int colunas);
+    void executa(Fabrica& fabricaJogo, const std::string& argumentos) override;
 };
 
 #endif //TP_COMANDOSCRIACAO_H

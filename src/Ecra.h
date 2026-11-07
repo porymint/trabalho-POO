@@ -5,6 +5,7 @@
 #ifndef TP_ECRA_H
 #define TP_ECRA_H
 #include <string>
+#include "Fabrica.h"
 class Ecra{
 private:
     //Dimensões ecra
@@ -24,5 +25,6 @@ public:
      void escreve(const std::string& texto);
      void desenhaEcra(int linha, int coluna, int altura, int largura);
      void mostra() const;
+     void desenhaFabrica(const Fabrica& fabrica, int linhaInicio, int colunaInicio);
  };
 #endif //TP_ECRA_H
