@@ -153,6 +153,7 @@ CMakeFiles/TP.dir/Ecra.cpp.o: \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/bits/uses_allocator_args.h \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/tuple \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/bits/invoke.h \
+ /home/alho/workspace/trabalho-POO/src/Fabrica.h \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/iostream \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/ostream \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/bits/ostream.h \

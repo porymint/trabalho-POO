@@ -4,6 +4,7 @@
 
 #include "Interpretador.h"
 #include "ComandosGerais.h"
+#include "ComandosListagem.h"
 #include "Ecra.h"
 #include <sstream>
 
@@ -24,6 +25,8 @@ Comando* Interpretador::processaLinha(const string& linha, string& argumentosRes
         return new ComandoFim();
     } else if (comandoBase == "fabrica") {
         return new ComandoFabrica();
+    } else if (comandoBase == "lposicao") {
+        return new ComandoLPosicao();
     }
 
     return nullptr; // Devolve nulo se a palavra não existir

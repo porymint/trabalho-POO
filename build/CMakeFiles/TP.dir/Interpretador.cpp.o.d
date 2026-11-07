@@ -218,6 +218,8 @@ CMakeFiles/TP.dir/Interpretador.cpp.o: \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/bits/ostream.tcc \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/istream \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/bits/istream.tcc \
+ /home/alho/workspace/trabalho-POO/src/ComandosListagem.h \
  /home/alho/workspace/trabalho-POO/src/Ecra.h \
+ /home/alho/workspace/trabalho-POO/src/Fabrica.h \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/sstream \
  /nix/store/xpaz3fi6ibqxb9sla4gjlp0c82v566y8-gcc-16.2.0/include/c++/16.2.0/bits/sstream.tcc
