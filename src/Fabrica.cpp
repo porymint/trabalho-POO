@@ -7,10 +7,9 @@
 #include "Settings.h"
 #include <fstream>
 #include <iostream>
-#include <random>
 
 Fabrica::Fabrica(int nl, int nc) : linhas(nl), colunas(nc) {
-    grelha.resize(linhas, std::vector<Terreno>(colunas));
+
 }
 
 bool Fabrica::posicaoValida(int l, int c) const {
@@ -22,9 +21,10 @@ const Terreno& Fabrica::getTerreno(int l, int c) const {
 }
 
 void Fabrica::gerarAleatorio() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> disQtd(40, 60);
+    srand(time(NULL));
+
+    int linhaRand = rand() % linhas; 
+    int colunaRand = rand() % colunas;
 }
 
 bool Fabrica::carregarDeFicheiro(const std::string& nomeFicheiro) {
@@ -42,7 +42,7 @@ bool Fabrica::carregarDeFicheiro(const std::string& nomeFicheiro) {
 
     linhas = nl;
     colunas = nc;
-    grelha.resize(linhas, std::vector<Terreno>(colunas));
+
 
     std::string linhaTexto;
     std::getline(file, linhaTexto);

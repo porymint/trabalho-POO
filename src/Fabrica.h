@@ -5,7 +5,6 @@
 #ifndef TP_FABRICA_H
 #define TP_FABRICA_H
 
-#include <vector>
 #include <string>
 
 struct Terreno {
@@ -17,7 +16,7 @@ class Fabrica {
 private:
     int linhas;
     int colunas;
-    std::vector<std::vector<Terreno>> grelha;
+    Terreno** grelha;
 
 public:
     Fabrica(int nl, int nc);
