@@ -14,13 +14,10 @@ Comando* Interpretador::processaLinha(const string& linha, string& argumentosRes
     istringstream iss(linha);
     string comandoBase;
 
-    // Extrai a primeira palavra (o comando)
     iss >> comandoBase;
 
-    // Guarda o resto da frase (os números, letras, etc.) noutra variável
     getline(iss, argumentosRestantes);
 
-    // Devolve o objeto correspondente usando alocação dinâmica
     if (comandoBase == "fim") {
         return new ComandoFim();
     } else if (comandoBase == "fabrica") {

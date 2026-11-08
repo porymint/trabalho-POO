@@ -13,7 +13,6 @@ void desenhaInterfaceBase(Ecra& ecra, const Fabrica& fabrica) {
     int linhaInicio = 3;
     int colInicio = 5;
 
-    // Só desenha a grelha e as réguas se já houver dimensões válidas
     if (linhasFabrica > 0 && colunasFabrica > 0) {
         ecra.desenhaEcra(linhaInicio - 2, colInicio - 3, linhasFabrica + 3, colunasFabrica + 5);
 
@@ -28,7 +27,6 @@ void desenhaInterfaceBase(Ecra& ecra, const Fabrica& fabrica) {
         }
     }
 
-    // O painel de estado à direita continua sempre visível
     int colPainel = colInicio + (colunasFabrica > 0 ? colunasFabrica : 0) + 5;
     ecra.desenhaEcra(linhaInicio - 2, colPainel, 12, 35);
 
@@ -47,22 +45,20 @@ void desenhaInterfaceBase(Ecra& ecra, const Fabrica& fabrica) {
 
 int main() {
     Ecra ecra;
-    Fabrica fabrica(0, 0); // Arranca vazio, sem dimensões pré-definidas
+    Fabrica fabrica(0, 0);
     string linha;
 
     while (true) {
         ecra.limpa();
 
-        // Desenha a interface e os elementos dinâmicos com base no estado atual da fábrica
         desenhaInterfaceBase(ecra, fabrica);
 
-        // Só desenha o conteúdo da fábrica se ela já tiver sido inicializada
         if (fabrica.getLinhas() > 0 && fabrica.getColunas() > 0) {
             ecra.desenhaFabrica(fabrica, 3, 5);
         }
 
         ecra.posicionaCursor(38, 0);
-        ecra.mostra(); // Despeja o buffer atualizado para o ecrã
+        ecra.mostra();
 
         cout << "\nComando> ";
 

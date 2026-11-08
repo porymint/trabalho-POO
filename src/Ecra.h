@@ -8,12 +8,11 @@
 #include "Fabrica.h"
 class Ecra{
 private:
-    //Dimensões ecra
     static const int Max_Linhas = 40;
     static const int Max_Colunas = 80;
-    char buffer[Max_Linhas][Max_Colunas];//buffer = array bidimensional
+    char buffer[Max_Linhas][Max_Colunas];
 
-    //Variaveis para verificar o cursor atual
+
     int cursorLinha;
     int cursorColuna;
 

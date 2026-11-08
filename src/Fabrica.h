@@ -25,7 +25,7 @@ private:
     int linhas;
     int colunas;
 
-    // Um ponteiro para o array dinâmico contínuo
+
     Terreno* grelha;
 
     void alocaMemoria(int nl, int nc);
