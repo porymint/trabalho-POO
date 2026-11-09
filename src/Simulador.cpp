@@ -72,7 +72,8 @@ int main() {
             cmd->executa(fabrica, argumentos);
             delete cmd;
 
-            if (linha.rfind("fim", 0) == 0) break;
+            if (linha.rfind("fim", 0) == 0)
+                break;
         } else {
             cout << "Erro: Comando nao reconhecido." << endl;
         }
