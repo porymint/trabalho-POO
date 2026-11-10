@@ -9,7 +9,7 @@
 
 class Terreno {
 private:
-    char tipo = '.';
+    char tipo = ' ';
     int quantidade = 0;
 
 public:

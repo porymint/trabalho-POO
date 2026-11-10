@@ -31,16 +31,12 @@ void desenhaInterfaceBase(Ecra& ecra, const Fabrica& fabrica) {
     ecra.desenhaEcra(linhaInicio - 2, colPainel, 12, 35);
 
     ecra.posicionaCursor(linhaInicio, colPainel + 6);
-    ecra.escreve("=== MARTE: ESTADO ===");
+    ecra.escreve("MARTE: ESTADO");
     ecra.posicionaCursor(linhaInicio + 2, colPainel + 2);
     ecra.escreve("Instante: 0");
     ecra.posicionaCursor(linhaInicio + 3, colPainel + 2);
     ecra.escreve("Creditos: 0");
 
-    ecra.posicionaCursor(linhaInicio + 8, colPainel + 2);
-    ecra.escreve("Comandos: fabrica, carrega,");
-    ecra.posicionaCursor(linhaInicio + 9, colPainel + 2);
-    ecra.escreve("          lposicao, fim");
 }
 
 int main() {

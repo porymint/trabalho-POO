@@ -1,3 +1,0 @@
-/home/alho/workspace/trabalho-POO/build/CMakeFiles/TP.dir
-/home/alho/workspace/trabalho-POO/build/CMakeFiles/edit_cache.dir
-/home/alho/workspace/trabalho-POO/build/CMakeFiles/rebuild_cache.dir
