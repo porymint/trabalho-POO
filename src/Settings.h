@@ -8,6 +8,12 @@ namespace Settings {
     constexpr int MAX_MATERIA_DEPOSITO = 60;
     
     constexpr int CREDITS_INICIAIS = 1000;
+
+    // --- Silo (acrescentado pela Pessoa B) ---
+    // Se o Settings oficial dos docentes ja tiver estas constantes (com outros nomes),
+    // basta ajustar os nomes usados em MaquinasDerivadas.cpp.
+    constexpr int CUSTO_SILO = 120;
+    constexpr int PROB_PERDA_SILO = 20;   // percentagem (0..100)
 }
 
 #endif

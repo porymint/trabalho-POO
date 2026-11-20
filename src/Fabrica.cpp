@@ -3,6 +3,7 @@
 //
 #include "Fabrica.h"
 #include "Settings.h"
+#include "Maquina.h"
 #include <fstream>
 #include <iostream>
 #include <cstdlib>
@@ -27,12 +28,18 @@ void Fabrica::libertaMemoria() {
     }
 }
 
-Fabrica::Fabrica(int nl, int nc) {
+Fabrica::Fabrica(int nl, int nc)
+    : linhas(0), colunas(0), grelha(nullptr),
+      instante(0), creditos(Settings::CREDITS_INICIAIS) {
     alocaMemoria(nl, nc);
     srand(time(NULL));
 }
 
 Fabrica::~Fabrica() {
+    for (Maquina* m : maquinas) {
+        delete m;
+    }
+    maquinas.clear();
     libertaMemoria();
 }
 
@@ -76,4 +83,48 @@ bool Fabrica::criarAleatoria(int nl, int nc) {
         }
     }
     return true;
+}
+
+Maquina* Fabrica::getMaquinaPorIndice(int i) const {
+    if (i < 0 || i >= getNumMaquinas()) return nullptr;
+    return maquinas[i];
+}
+
+Maquina* Fabrica::getMaquina(int l, int c) const {
+    for (Maquina* m : maquinas) {
+        if (m->getLinha() == l && m->getColuna() == c) {
+            return m;
+        }
+    }
+    return nullptr;
+}
+
+bool Fabrica::adicionaMaquina(Maquina* m) {
+    if (m == nullptr) return false;
+
+    const Terreno* t = getTerreno(m->getLinha(), m->getColuna());
+    if (t == nullptr || t->getTipo() == '#') return false;
+    if (getMaquina(m->getLinha(), m->getColuna()) != nullptr) return false;
+
+    maquinas.push_back(m);
+    return true;
+}
+
+void Fabrica::registaEvento(const std::string& texto) {
+    eventos.push_back(texto);
+}
+
+void Fabrica::avancaInstante() {
+    ++instante;
+    eventos.clear();
+
+    // Mecanismo de atuacao: cada maquina atua uma vez por instante. A regra
+    // "um item so avanca uma posicao por instante" e garantida pelas proprias
+    // maquinas (ver Maquina.h), nao pela ordem desta iteracao.
+    for (Maquina* m : maquinas) {
+        m->atua(*this);
+    }
+
+    // Entrega final: pagamento dos salarios dos engenheiros e regra dos
+    // creditos <= 0 entram aqui.
 }

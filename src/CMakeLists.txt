@@ -7,6 +7,7 @@ add_executable(TP
         Fabrica.cpp
         Posicao.cpp
         Comandos.cpp
+        Contexto.cpp
         Engenheiro.cpp
         Item.cpp
         Maquina.cpp
@@ -18,6 +19,5 @@ add_executable(TP
         ComandosListagem.cpp
         ComandosMaquinas.cpp
         ComandosTempo.cpp
-        Comandos.cpp
         Ecra.cpp
         Interpretador.cpp)
