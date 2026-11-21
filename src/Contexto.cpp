@@ -3,7 +3,6 @@
 #include "Fabrica.h"
 #include "Maquina.h"
 #include <string>
-#include <vector>
 
 Contexto::Contexto(Fabrica& fabrica, Ecra& ecra)
     : fabrica(fabrica), ecra(ecra), terminar(false), nivelExecuta(0) {}
@@ -58,12 +57,11 @@ void Contexto::apresenta() {
     ecra.posicionaCursor(linhaInicio + 7, colPainel + 2);
     ecra.escreve("No ultimo instante:");
 
-    const std::vector<std::string>& eventos = fabrica.getEventos();
     const int maxEventos = 4;
     const std::string::size_type maxChars = static_cast<std::string::size_type>(largura - 4);
-    for (int i = 0; i < maxEventos && i < static_cast<int>(eventos.size()); ++i) {
+    for (int i = 0; i < maxEventos && i < fabrica.getNumEventos(); ++i) {
         ecra.posicionaCursor(linhaInicio + 8 + i, colPainel + 2);
-        ecra.escreve(eventos[i].substr(0, maxChars));
+        ecra.escreve(fabrica.getEvento(i).substr(0, maxChars));
     }
 
     ecra.mostra();
