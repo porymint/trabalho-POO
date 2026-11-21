@@ -8,7 +8,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-#include <algorithm>
 
 using namespace std;
 
@@ -63,18 +62,43 @@ void Fabrica::libertaMemoria() {
     colunas = 0;
 }
 
+void Fabrica::aumentaMaquinas() {
+    int novaCapacidade = (capacidadeMaquinas == 0) ? 8 : capacidadeMaquinas * 2;
+    Maquina** novo = new Maquina*[novaCapacidade];
+    for (int i = 0; i < numMaquinas; ++i) {
+        novo[i] = maquinas[i];
+    }
+    delete[] maquinas;
+    maquinas = novo;
+    capacidadeMaquinas = novaCapacidade;
+}
+
+void Fabrica::aumentaEventos() {
+    int novaCapacidade = (capacidadeEventos == 0) ? 8 : capacidadeEventos * 2;
+    std::string* novo = new std::string[novaCapacidade];
+    for (int i = 0; i < numEventos; ++i) {
+        novo[i] = eventos[i];
+    }
+    delete[] eventos;
+    eventos = novo;
+    capacidadeEventos = novaCapacidade;
+}
+
 Fabrica::Fabrica(int nl, int nc)
         : linhas(0), colunas(0), grelha(nullptr),
-          instante(0), creditos(Settings::CREDITS_INICIAIS) {
+          instante(0), creditos(Settings::CREDITS_INICIAIS),
+          maquinas(nullptr), numMaquinas(0), capacidadeMaquinas(0),
+          eventos(nullptr), numEventos(0), capacidadeEventos(0) {
     alocaMemoria(nl, nc);
     srand(static_cast<unsigned int>(time(nullptr)));
 }
 
 Fabrica::~Fabrica() {
-    for (Maquina* m : maquinas) {
-        delete m;
+    for (int i = 0; i < numMaquinas; ++i) {
+        delete maquinas[i];
     }
-    maquinas.clear();
+    delete[] maquinas;
+    delete[] eventos;
     libertaMemoria();
 }
 
@@ -95,11 +119,11 @@ bool Fabrica::criarAleatoria(int nl, int nc) {
         return false;
     }
 
-    for (Maquina* m : maquinas) {
-        delete m;
+    for (int i = 0; i < numMaquinas; ++i) {
+        delete maquinas[i];
     }
-    maquinas.clear();
-    eventos.clear();
+    numMaquinas = 0;
+    numEventos = 0;
     instante = 0;
     creditos = Settings::CREDITS_INICIAIS;
 
@@ -185,11 +209,11 @@ bool Fabrica::carregarDeFicheiro(const std::string& nomeFicheiro) {
         }
     }
 
-    for (Maquina* m : maquinas) {
-        delete m;
+    for (int i = 0; i < numMaquinas; ++i) {
+        delete maquinas[i];
     }
-    maquinas.clear();
-    eventos.clear();
+    numMaquinas = 0;
+    numEventos = 0;
     instante = 0;
     creditos = Settings::CREDITS_INICIAIS;
 
@@ -202,14 +226,14 @@ bool Fabrica::carregarDeFicheiro(const std::string& nomeFicheiro) {
 }
 
 Maquina* Fabrica::getMaquinaPorIndice(int i) const {
-    if (i < 0 || i >= getNumMaquinas()) return nullptr;
+    if (i < 0 || i >= numMaquinas) return nullptr;
     return maquinas[i];
 }
 
 Maquina* Fabrica::getMaquina(int l, int c) const {
-    for (Maquina* m : maquinas) {
-        if (m->getLinha() == l && m->getColuna() == c) {
-            return m;
+    for (int i = 0; i < numMaquinas; ++i) {
+        if (maquinas[i]->getLinha() == l && maquinas[i]->getColuna() == c) {
+            return maquinas[i];
         }
     }
     return nullptr;
@@ -222,7 +246,8 @@ bool Fabrica::adicionaMaquina(Maquina* m) {
     if (t == nullptr || t->getTipo() == '#') return false;
     if (getMaquina(m->getLinha(), m->getColuna()) != nullptr) return false;
 
-    maquinas.push_back(m);
+    if (numMaquinas == capacidadeMaquinas) aumentaMaquinas();
+    maquinas[numMaquinas++] = m;
     return true;
 }
 
@@ -272,9 +297,15 @@ bool Fabrica::venderMaquina(int l, int c) {
 
     creditos += custo / 2;
 
-    auto it = std::find(maquinas.begin(), maquinas.end(), m);
-    if (it != maquinas.end()) {
-        maquinas.erase(it);
+    // Retira do array, deslocando os seguintes uma posicao para tras.
+    for (int i = 0; i < numMaquinas; ++i) {
+        if (maquinas[i] == m) {
+            for (int j = i; j < numMaquinas - 1; ++j) {
+                maquinas[j] = maquinas[j + 1];
+            }
+            --numMaquinas;
+            break;
+        }
     }
 
     delete m;
@@ -291,10 +322,18 @@ bool Fabrica::rodarMaquina(int l, int c, char dir) {
 }
 
 void Fabrica::registaEvento(const std::string& texto) {
-    eventos.push_back(texto);
+    if (numEventos == capacidadeEventos) aumentaEventos();
+    eventos[numEventos++] = texto;
 }
 
 void Fabrica::avancaInstante() {
     ++instante;
-    eventos.clear();
+    numEventos = 0;   // os strings ficam no array e sao reutilizados
+
+    // Cada maquina atua uma vez por instante.
+    for (int i = 0; i < numMaquinas; ++i) {
+        maquinas[i]->atua(*this);
+    }
+
+    // Entrega final: salarios dos engenheiros e regra dos creditos <= 0.
 }
