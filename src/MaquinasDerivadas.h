@@ -1,95 +1,51 @@
 //
 // Created by Pedro Freitas on 03/11/2026.
 //
+
 #ifndef TP_MAQUINASDERIVADAS_H
 #define TP_MAQUINASDERIVADAS_H
 
 #include "Maquina.h"
-#include "Settings.h"
-#include <vector>
-#include <string>
 
-class Perfuradora : public Maquina {
-private:
-    int probPerda;
-    bool temItemPendente;
-    char itemPendente;
-
-public:
-    Perfuradora(int linha, int coluna, char direcao);
-    char getSimbolo() const override;
-    std::string getDescricao() const override;
-    bool melhorar();
-    int getProbPerda() const;
-};
-
-class Transportador : public Maquina {
-private:
-    bool ocupado;
-    char itemAtual;
-
-public:
-    Transportador(int linha, int coluna, char direcao);
-    char getSimbolo() const override;
-    std::string getDescricao() const override;
-    bool estaOcupado() const;
-    char getItemAtual() const;
-};
-
-class Refinaria : public Maquina {
-private:
-    int instantesRestantes;
-    bool aTransformar;
-    bool temProdutoPronto;
-    char itemEntrada;
-    char produtoPronto;
-
-public:
-    Refinaria(int linha, int coluna, char direcao);
-    std::string getDescricao() const override;
-};
-
-class Oficina : public Maquina {
-private:
-    int ferroAcumulado;
-    int silicioAcumulado;
-    int aguaAcumulada;
-    int tempoProducao;
-    int instantesRestantes;
-    bool aProduzir;
-    bool temKitPronto;
-    bool melhoriaUsada;
-
-public:
-    Oficina(int linha, int coluna, char direcao);
-    std::string getDescricao() const override;
-    bool melhorarVelocidade();
-};
-
+// Silo: guarda itens de qualquer tipo, sem limite de capacidade.
+// Armazenamento: lista ligada simples gerida a mao (fila FIFO). Cada item
+// guardado ocupa exatamente um no, logo nao se gasta mais memoria do que a
+// necessaria. Nao usa nenhuma colecao da biblioteca standard.
 class Silo : public Maquina {
 private:
-    int probPerda;
-    std::vector<char> itensGuardados;
+    struct No {
+        Item item;
+        int instanteEntrada;
+        No* seguinte;
+
+        No(const Item& i, int instante) : item(i), instanteEntrada(instante), seguinte(nullptr) {}
+    };
+
+    No* primeiro;   // item guardado ha mais tempo
+    No* ultimo;     // item mais recente
+    int quantidade;
+    int probabilidadePerda;   // percentagem
+
+    void acrescenta(const Item& item, int instante);
+    void removePrimeiro();
+    void liberta();
+    void copiaDe(const Silo& outro);
 
 public:
     Silo(int linha, int coluna, char direcao);
-    std::string getDescricao() const override;
-    bool melhorar();
-    int getProbPerda() const;
-};
+    Silo(const Silo& outro);
+    Silo& operator=(const Silo& outro);
+    ~Silo() override;
 
-class Lancador : public Maquina {
-private:
-    int probPerda;
-    bool temItemPorLancar;
-    char itemPorLancar;
-    int contadorInstantes;
+    int getQuantidade() const { return quantidade; }
 
-public:
-    Lancador(int linha, int coluna, char direcao);
+    char getSimbolo() const override;
+    std::string getNome() const override;
     std::string getDescricao() const override;
-    bool melhorar();
-    int getProbPerda() const;
+
+    bool aceita(const Item& item) const override;
+    void recebe(const Item& item, int instante) override;
+    void atua(Fabrica& fabrica) override;
 };
 
 #endif //TP_MAQUINASDERIVADAS_H

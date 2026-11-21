@@ -1,155 +1,115 @@
 //
 // Created by Pedro Freitas on 03/11/2026.
 //
+
 #include "MaquinasDerivadas.h"
+#include "Fabrica.h"
+#include "Settings.h"
+#include <cstdlib>
 
-// --- Perfuradora ---
-Perfuradora::Perfuradora(int linha, int coluna, char direcao)
-        : Maquina('P', linha, coluna, direcao, Settings::CUSTO_PERFURADORA),
-          probPerda(Settings::PERFURADORA_PROB_PERDA_INICIAL),
-          temItemPendente(false),
-          itemPendente('\0') {}
+// ---------------------------------------------------------------- Silo
 
-char Perfuradora::getSimbolo() const {
-    return 'P';
-}
-
-std::string Perfuradora::getDescricao() const {
-    return "Perfuradora (P) - perda: " + std::to_string(probPerda) + "%";
-}
-
-bool Perfuradora::melhorar() {
-    if (probPerda <= 0) {
-        return false;
-    }
-    probPerda -= 10;
-    if (probPerda < 0) {
-        probPerda = 0;
-    }
-    return true;
-}
-
-int Perfuradora::getProbPerda() const {
-    return probPerda;
-}
-
-// --- Transportador ---
-Transportador::Transportador(int linha, int coluna, char direcao)
-        : Maquina('T', linha, coluna, direcao, Settings::CUSTO_TRANSPORTADOR),
-          ocupado(false),
-          itemAtual('\0') {}
-
-char Transportador::getSimbolo() const {
-    if (ocupado && itemAtual != '\0') {
-        return itemAtual;
-    }
-    switch (getDirecao()) {
-        case 'c': return '^';
-        case 'b': return 'v';
-        case 'e': return '<';
-        case 'd': return '>';
-        default:  return 'T';
-    }
-}
-
-std::string Transportador::getDescricao() const {
-    return "Transportador (T) - direcao: " + std::string(1, getDirecao());
-}
-
-bool Transportador::estaOcupado() const {
-    return ocupado;
-}
-
-char Transportador::getItemAtual() const {
-    return itemAtual;
-}
-
-// --- Refinaria ---
-Refinaria::Refinaria(int linha, int coluna, char direcao)
-        : Maquina('R', linha, coluna, direcao, Settings::CUSTO_REFINARIA),
-          instantesRestantes(0),
-          aTransformar(false),
-          temProdutoPronto(false),
-          itemEntrada('\0'),
-          produtoPronto('\0') {}
-
-std::string Refinaria::getDescricao() const {
-    return "Refinaria (R) - direcao: " + std::string(1, getDirecao());
-}
-
-// --- Oficina ---
-Oficina::Oficina(int linha, int coluna, char direcao)
-        : Maquina('O', linha, coluna, direcao, Settings::CUSTO_OFICINA),
-          ferroAcumulado(0),
-          silicioAcumulado(0),
-          aguaAcumulada(0),
-          tempoProducao(Settings::OFICINA_TEMPO_PRODUCAO),
-          instantesRestantes(0),
-          aProduzir(false),
-          temKitPronto(false),
-          melhoriaUsada(false) {}
-
-std::string Oficina::getDescricao() const {
-    return "Oficina (O) - tempo: " + std::to_string(tempoProducao) + " instantes";
-}
-
-bool Oficina::melhorarVelocidade() {
-    if (melhoriaUsada || tempoProducao <= 1) {
-        return false;
-    }
-    tempoProducao -= 1;
-    melhoriaUsada = true;
-    return true;
-}
-
-// --- Silo ---
 Silo::Silo(int linha, int coluna, char direcao)
-        : Maquina('S', linha, coluna, direcao, Settings::CUSTO_SILO),
-          probPerda(Settings::SILO_PROB_PERDA_INICIAL) {}
+    : Maquina(linha, coluna, direcao),
+      primeiro(nullptr), ultimo(nullptr), quantidade(0),
+      probabilidadePerda(Settings::PROB_PERDA_SILO) {}
+
+Silo::Silo(const Silo& outro)
+    : Maquina(outro),
+      primeiro(nullptr), ultimo(nullptr), quantidade(0),
+      probabilidadePerda(outro.probabilidadePerda) {
+    copiaDe(outro);
+}
+
+Silo& Silo::operator=(const Silo& outro) {
+    if (this != &outro) {
+        Maquina::operator=(outro);
+        liberta();
+        probabilidadePerda = outro.probabilidadePerda;
+        copiaDe(outro);
+    }
+    return *this;
+}
+
+Silo::~Silo() {
+    liberta();
+}
+
+void Silo::acrescenta(const Item& item, int instante) {
+    No* novo = new No(item, instante);
+    if (ultimo == nullptr) {
+        primeiro = ultimo = novo;
+    } else {
+        ultimo->seguinte = novo;
+        ultimo = novo;
+    }
+    ++quantidade;
+}
+
+void Silo::removePrimeiro() {
+    if (primeiro == nullptr) return;
+
+    No* removido = primeiro;
+    primeiro = primeiro->seguinte;
+    if (primeiro == nullptr) ultimo = nullptr;
+    delete removido;
+    --quantidade;
+}
+
+void Silo::liberta() {
+    while (primeiro != nullptr) {
+        removePrimeiro();
+    }
+}
+
+void Silo::copiaDe(const Silo& outro) {
+    for (const No* n = outro.primeiro; n != nullptr; n = n->seguinte) {
+        acrescenta(n->item, n->instanteEntrada);
+    }
+}
+
+char Silo::getSimbolo() const { return 'S'; }
+
+std::string Silo::getNome() const { return "Silo"; }
 
 std::string Silo::getDescricao() const {
-    return "Silo (S) - guardados: " + std::to_string(itensGuardados.size()) +
-           ", perda: " + std::to_string(probPerda) + "%";
+    std::string conteudo;
+    for (const No* n = primeiro; n != nullptr; n = n->seguinte) {
+        conteudo += n->item.getSimbolo();
+    }
+
+    return "Silo (S) em " + getPosicao() + ", saida: " + getDirecao() +
+           ", itens: " + std::to_string(quantidade) +
+           (conteudo.empty() ? "" : " [" + conteudo + "]") +
+           ", prob. perda: " + std::to_string(probabilidadePerda) + "%";
 }
 
-bool Silo::melhorar() {
-    if (probPerda <= 0) {
-        return false;
-    }
-    probPerda -= 5;
-    if (probPerda < 0) {
-        probPerda = 0;
-    }
+// Sem limite de capacidade: aceita sempre.
+bool Silo::aceita(const Item&) const {
     return true;
 }
 
-int Silo::getProbPerda() const {
-    return probPerda;
+void Silo::recebe(const Item& item, int instante) {
+    acrescenta(item, instante);
 }
 
-// --- Lancador ---
-Lancador::Lancador(int linha, int coluna, char direcao)
-        : Maquina('L', linha, coluna, direcao, Settings::CUSTO_LANCADOR),
-          probPerda(Settings::LANCADOR_PROB_PERDA_INICIAL),
-          temItemPorLancar(false),
-          itemPorLancar('\0'),
-          contadorInstantes(0) {}
+void Silo::atua(Fabrica& fabrica) {
+    if (primeiro == nullptr) return;
 
-std::string Lancador::getDescricao() const {
-    return "Lancador (L) - perda: " + std::to_string(probPerda) + "%";
-}
+    // Item que acabou de chegar neste instante so "age" no seguinte.
+    if (primeiro->instanteEntrada >= fabrica.getInstante()) return;
 
-bool Lancador::melhorar() {
-    if (probPerda <= 0) {
-        return false;
+    // Probabilidade de se perder o item guardado ha mais tempo.
+    if (std::rand() % 100 < probabilidadePerda) {
+        fabrica.registaEvento("silo em " + getPosicao() + " perdeu " + primeiro->item.getNome());
+        removePrimeiro();
+        return;
     }
-    probPerda -= 10;
-    if (probPerda < 0) {
-        probPerda = 0;
-    }
-    return true;
-}
 
-int Lancador::getProbPerda() const {
-    return probPerda;
+    // Tenta entregar o item mais antigo na direcao de saida.
+    Maquina* destino = getVizinha(fabrica);
+    if (destino != nullptr && destino->aceita(primeiro->item)) {
+        destino->recebe(primeiro->item, fabrica.getInstante());
+        removePrimeiro();
+    }
 }

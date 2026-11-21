@@ -8,7 +8,12 @@
 
 class ComandoFabrica : public Comando {
 public:
-    void executa(Fabrica& fabricaJogo, const std::string& argumentos) override;
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "fabrica"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
+    bool requerFabrica() const override { return false; }
+    bool criaFabrica() const override { return true; }
 };
 class ComandoCarrega : public Comando {
 public:

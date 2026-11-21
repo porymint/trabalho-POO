@@ -5,13 +5,32 @@
 #ifndef TP_COMANDOSGERAIS_H
 #define TP_COMANDOSGERAIS_H
 #include "Comandos.h"
-#include <iostream>
 
 class ComandoFim : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override {
-        std::cout << "A encerrar o simulador de Marte..." << std::endl;
-    }
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "fim"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
+    bool requerFabrica() const override { return false; }
+};
+
+class ComandoAjuda : public Comando {
+public:
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "ajuda"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
+    bool requerFabrica() const override { return false; }
+};
+
+class ComandoExecuta : public Comando {
+public:
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "executa"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
+    bool requerFabrica() const override { return false; }
 };
 
 #endif //TP_COMANDOSGERAIS_H

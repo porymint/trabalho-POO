@@ -11,7 +11,10 @@
 
 class ComandoLPosicao : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "lposicao"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 #endif //TP_COMANDOSLISTAGEM_H
