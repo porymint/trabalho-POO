@@ -8,19 +8,30 @@
 #include "Comandos.h"
 #include <string>
 
+class Contexto;
+
 class ComandoCompra : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "compra"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 class ComandoVende : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "vende"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 class ComandoRoda : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "roda"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 #endif //TP_COMANDOSMAQUINAS_H

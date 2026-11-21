@@ -71,6 +71,10 @@ public:
     // --- Resumo do ultimo instante (painel de estado) ---
     void registaEvento(const std::string& texto);
     const std::vector<std::string>& getEventos() const { return eventos; }
+
+    bool comprarMaquina(char tipo, int l, int c, char dir);
+    bool venderMaquina(int l, int c);
+    bool rodarMaquina(int l, int c, char dir);
 };
 
 #endif //TP_FABRICA_H

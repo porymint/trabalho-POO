@@ -41,3 +41,35 @@ std::string ComandoFabrica::ajudaDetalhada() const {
            "  Falha se as dimensoes forem invalidas ou se a fabrica ja existir.\n"
            "  Exemplo: fabrica 12 20\n";
 }
+
+bool ComandoCarrega::executa(Contexto& contexto, const std::string& argumentos) {
+    Fabrica& fabricaJogo = contexto.getFabrica();
+    std::istringstream iss(argumentos);
+    std::string nomeFicheiro;
+    std::string extra;
+
+    if (!(iss >> nomeFicheiro) || (iss >> extra)) {
+        std::cout << "Erro: Sintaxe incorreta. Uso: carrega <nome-do-ficheiro>\n";
+        return false;
+    }
+
+    if (!fabricaJogo.carregarDeFicheiro(nomeFicheiro)) {
+        std::cout << "Erro: Nao foi possivel carregar a fabrica a partir de '" << nomeFicheiro << "'.\n";
+        return false;
+    }
+
+    std::cout << "Fabrica carregada com sucesso a partir de '" << nomeFicheiro << "'.\n";
+    return true;
+}
+
+std::string ComandoCarrega::ajudaResumida() const {
+    return "carrega <ficheiro>     cria a fabrica a partir de um ficheiro de texto";
+}
+
+std::string ComandoCarrega::ajudaDetalhada() const {
+    return "carrega <nome-do-ficheiro>\n"
+           "  nome-do-ficheiro : caminho/nome do ficheiro com as dimensoes e o mapa.\n"
+           "  Valida o formato do ficheiro e cria a fabrica sem deixar estado invalido\n"
+           "  em caso de falha.\n"
+           "  Exemplo: carrega mapa1.txt\n";
+}

@@ -6,6 +6,9 @@
 #include "Contexto.h"
 #include "Fabrica.h"
 #include "ComandosCriacao.h"
+#include "ComandosMaquinas.h"
+#include "ComandoEstado.h"
+#include "ComandosValidacaoFinal.h"
 #include "ComandosGerais.h"
 #include "ComandosListagem.h"
 #include "ComandosTempo.h"
@@ -24,12 +27,23 @@ namespace {
     // uma linha (e o #include do respetivo header): processaLinha e ajuda passam
     // a conhece-lo automaticamente.
     const Criador CRIADORES[] = {
-        &cria<ComandoFabrica>,
-        &cria<ComandoAvanca>,
-        &cria<ComandoLPosicao>,
-        &cria<ComandoExecuta>,
-        &cria<ComandoAjuda>,
-        &cria<ComandoFim>
+            &cria<ComandoFabrica>,
+            &cria<ComandoCarrega>,
+            &cria<ComandoCompra>,
+            &cria<ComandoVende>,
+            &cria<ComandoRoda>,
+            &cria<ComandoEstado>,
+            &cria<ComandoMelhora>,
+            &cria<ComandoContrata>,
+            &cria<ComandoAtribui>,
+            &cria<ComandoDespede>,
+            &cria<ComandoGrava>,
+            &cria<ComandoRecupera>,
+            &cria<ComandoAvanca>,
+            &cria<ComandoLPosicao>,
+            &cria<ComandoExecuta>,
+            &cria<ComandoAjuda>,
+            &cria<ComandoFim>
     };
 
     const int NUM_COMANDOS = static_cast<int>(sizeof(CRIADORES) / sizeof(CRIADORES[0]));

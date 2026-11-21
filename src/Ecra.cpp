@@ -83,7 +83,7 @@ void Ecra::desenhaFabrica(const Fabrica& fabrica, int linhaInicio, int colunaIni
 
             if (t != nullptr) {
                 posicionaCursor(linhaInicio + l, colunaInicio + c);
-                const Maquina* m = t->getMaquina();
+                const Maquina* m = fabrica.getMaquina(l, c);
                 if (m != nullptr) {
                     escreve(m->getSimbolo());
                 } else {

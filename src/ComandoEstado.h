@@ -7,10 +7,14 @@
 #include "Comandos.h"
 #include <string>
 
+class Contexto;
+
 class ComandoEstado : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
-    static std::string ajuda();
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "estado"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 #endif //TP_COMANDOSESTADO_H

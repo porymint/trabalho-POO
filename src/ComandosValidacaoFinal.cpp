@@ -2,6 +2,7 @@
 // Created by Pedro Freitas on 20/11/2026.
 //
 #include "ComandosValidacaoFinal.h"
+#include "Contexto.h"
 #include "Fabrica.h"
 #include <iostream>
 #include <sstream>
@@ -17,91 +18,133 @@ namespace {
 }
 
 // --- melhora <pos> ---
-std::string ComandoMelhora::ajuda() {
-    return "melhora <pos> - Melhora uma maquina na posicao indicada. Uso: melhora aa";
+std::string ComandoMelhora::ajudaResumida() const {
+    return "melhora <pos>        melhora uma maquina na posicao indicada";
 }
 
-void ComandoMelhora::executa(Fabrica&, const std::string& argumentos) {
+std::string ComandoMelhora::ajudaDetalhada() const {
+    return "melhora <pos>\n"
+           "  pos : posicao em duas letras (ex.: aa).\n"
+           "  Valida parametros (execucao completa na entrega final).\n";
+}
+
+bool ComandoMelhora::executa(Contexto&, const std::string& argumentos) {
     std::istringstream iss(argumentos);
     std::string pos, extra;
     if (!(iss >> pos) || (iss >> extra) || !posValidaSintaxe(pos)) {
-        std::cout << "Erro: parametros invalidos.\n" << ajuda() << "\n";
-        return;
+        std::cout << "Erro: parametros invalidos.\n" << ajudaResumida() << "\n";
+        return false;
     }
     std::cout << "Comando 'melhora' validado para '" << pos << "' (execucao completa na entrega final).\n";
+    return false;
 }
 
 // --- contrata ---
-std::string ComandoContrata::ajuda() {
-    return "contrata - Contrata um engenheiro para a fabrica. Uso: contrata";
+std::string ComandoContrata::ajudaResumida() const {
+    return "contrata             contrata um engenheiro para a fabrica";
 }
 
-void ComandoContrata::executa(Fabrica&, const std::string& argumentos) {
+std::string ComandoContrata::ajudaDetalhada() const {
+    return "contrata\n"
+           "  Valida parametros (execucao completa na entrega final).\n";
+}
+
+bool ComandoContrata::executa(Contexto&, const std::string& argumentos) {
     std::istringstream iss(argumentos);
     std::string extra;
     if (iss >> extra) {
-        std::cout << "Erro: parametros invalidos.\n" << ajuda() << "\n";
-        return;
+        std::cout << "Erro: parametros invalidos.\n" << ajudaResumida() << "\n";
+        return false;
     }
     std::cout << "Comando 'contrata' validado (execucao completa na entrega final).\n";
+    return false;
 }
 
-// --- atribui <id_ou_alvo> <pos> ---
-std::string ComandoAtribui::ajuda() {
-    return "atribui <engenheiro> <pos> - Atribui um engenheiro a uma posicao/maquina. Uso: atribui 1 aa";
+// --- atribui <engenheiro> <pos> ---
+std::string ComandoAtribui::ajudaResumida() const {
+    return "atribui <eng> <pos>  atribui um engenheiro a uma posicao/maquina";
 }
 
-void ComandoAtribui::executa(Fabrica&, const std::string& argumentos) {
+std::string ComandoAtribui::ajudaDetalhada() const {
+    return "atribui <engenheiro> <pos>\n"
+           "  engenheiro : identificador do engenheiro.\n"
+           "  pos        : posicao em duas letras (ex.: aa).\n"
+           "  Valida parametros (execucao completa na entrega final).\n";
+}
+
+bool ComandoAtribui::executa(Contexto&, const std::string& argumentos) {
     std::istringstream iss(argumentos);
     std::string eng, pos, extra;
     if (!(iss >> eng >> pos) || (iss >> extra) || !posValidaSintaxe(pos)) {
-        std::cout << "Erro: parametros invalidos.\n" << ajuda() << "\n";
-        return;
+        std::cout << "Erro: parametros invalidos.\n" << ajudaResumida() << "\n";
+        return false;
     }
     std::cout << "Comando 'atribui' validado para '" << eng << "' em '" << pos << "' (execucao completa na entrega final).\n";
+    return false;
 }
 
 // --- despede <engenheiro> ---
-std::string ComandoDespede::ajuda() {
-    return "despede <engenheiro> - Despede um engenheiro. Uso: despede 1";
+std::string ComandoDespede::ajudaResumida() const {
+    return "despede <eng>        despede um engenheiro";
 }
 
-void ComandoDespede::executa(Fabrica&, const std::string& argumentos) {
+std::string ComandoDespede::ajudaDetalhada() const {
+    return "despede <engenheiro>\n"
+           "  engenheiro : identificador do engenheiro.\n"
+           "  Valida parametros (execucao completa na entrega final).\n";
+}
+
+bool ComandoDespede::executa(Contexto&, const std::string& argumentos) {
     std::istringstream iss(argumentos);
     std::string eng, extra;
     if (!(iss >> eng) || (iss >> extra)) {
-        std::cout << "Erro: parametros invalidos.\n" << ajuda() << "\n";
-        return;
+        std::cout << "Erro: parametros invalidos.\n" << ajudaResumida() << "\n";
+        return false;
     }
     std::cout << "Comando 'despede' validado para '" << eng << "' (execucao completa na entrega final).\n";
+    return false;
 }
 
 // --- grava <nome> ---
-std::string ComandoGrava::ajuda() {
-    return "grava <nome> - Grava o estado atual da simulacao. Uso: grava estado1";
+std::string ComandoGrava::ajudaResumida() const {
+    return "grava <nome>         grava o estado atual da simulacao";
 }
 
-void ComandoGrava::executa(Fabrica&, const std::string& argumentos) {
+std::string ComandoGrava::ajudaDetalhada() const {
+    return "grava <nome>\n"
+           "  nome : etiqueta do estado a gravar.\n"
+           "  Valida parametros (execucao completa na entrega final).\n";
+}
+
+bool ComandoGrava::executa(Contexto&, const std::string& argumentos) {
     std::istringstream iss(argumentos);
     std::string nome, extra;
     if (!(iss >> nome) || (iss >> extra)) {
-        std::cout << "Erro: parametros invalidos.\n" << ajuda() << "\n";
-        return;
+        std::cout << "Erro: parametros invalidos.\n" << ajudaResumida() << "\n";
+        return false;
     }
     std::cout << "Comando 'grava' validado para '" << nome << "' (execucao completa na entrega final).\n";
+    return false;
 }
 
 // --- recupera <nome> ---
-std::string ComandoRecupera::ajuda() {
-    return "recupera <nome> - Recupera um estado gravado. Uso: recupera estado1";
+std::string ComandoRecupera::ajudaResumida() const {
+    return "recupera <nome>      recupera um estado gravado";
 }
 
-void ComandoRecupera::executa(Fabrica&, const std::string& argumentos) {
+std::string ComandoRecupera::ajudaDetalhada() const {
+    return "recupera <nome>\n"
+           "  nome : etiqueta do estado gravado.\n"
+           "  Valida parametros (execucao completa na entrega final).\n";
+}
+
+bool ComandoRecupera::executa(Contexto&, const std::string& argumentos) {
     std::istringstream iss(argumentos);
     std::string nome, extra;
     if (!(iss >> nome) || (iss >> extra)) {
-        std::cout << "Erro: parametros invalidos.\n" << ajuda() << "\n";
-        return;
+        std::cout << "Erro: parametros invalidos.\n" << ajudaResumida() << "\n";
+        return false;
     }
     std::cout << "Comando 'recupera' validado para '" << nome << "' (execucao completa na entrega final).\n";
+    return false;
 }

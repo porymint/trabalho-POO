@@ -7,40 +7,54 @@
 #include "Comandos.h"
 #include <string>
 
+class Contexto;
+
 class ComandoMelhora : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
-    static std::string ajuda();
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "melhora"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 class ComandoContrata : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
-    static std::string ajuda();
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "contrata"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 class ComandoAtribui : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
-    static std::string ajuda();
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "atribui"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 class ComandoDespede : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
-    static std::string ajuda();
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "despede"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 class ComandoGrava : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
-    static std::string ajuda();
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "grava"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 class ComandoRecupera : public Comando {
 public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override;
-    static std::string ajuda();
+    bool executa(Contexto& contexto, const std::string& argumentos) override;
+    std::string getNome() const override { return "recupera"; }
+    std::string ajudaResumida() const override;
+    std::string ajudaDetalhada() const override;
 };
 
 #endif //TP_COMANDOSENTREGAFINALVALIDACAO_H
