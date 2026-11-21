@@ -35,7 +35,7 @@ void desenhaInterfaceBase(Ecra& ecra, const Fabrica& fabrica) {
     ecra.posicionaCursor(linhaInicio + 2, colPainel + 2);
     ecra.escreve("Instante: 0");
     ecra.posicionaCursor(linhaInicio + 3, colPainel + 2);
-    ecra.escreve("Creditos: 0");
+    ecra.escreve("Creditos: " + std::to_string(fabrica.getCreditos()));
 
 }
 

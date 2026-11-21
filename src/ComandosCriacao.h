@@ -10,5 +10,8 @@ class ComandoFabrica : public Comando {
 public:
     void executa(Fabrica& fabricaJogo, const std::string& argumentos) override;
 };
-
+class ComandoCarrega : public Comando {
+public:
+    void executa(Fabrica& fabricaJogo, const std::string& argumentos) override;
+};
 #endif //TP_COMANDOSCRIACAO_H

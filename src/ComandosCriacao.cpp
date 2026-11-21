@@ -23,3 +23,18 @@ void ComandoFabrica::executa(Fabrica& fabricaJogo, const std::string& argumentos
         std::cout << "Erro: Sintaxe incorreta. Uso: fabrica <linhas> <colunas>\n";
     }
 }
+void ComandoCarrega::executa(Fabrica& fabricaJogo, const std::string& argumentos) {
+    std::istringstream iss(argumentos);
+    std::string nomeFicheiro;
+    std::string extra;
+
+    if ((iss >> nomeFicheiro) && !(iss >> extra)) {
+        if (fabricaJogo.carregarFicheiro(nomeFicheiro)) {
+            std::cout << "Fabrica carregada com sucesso a partir de '" << nomeFicheiro << "'!\n";
+        } else {
+            std::cout << "Erro: Nao foi possivel carregar o ficheiro '" << nomeFicheiro << "' (inexistente ou formato invalido).\n";
+        }
+    } else {
+        std::cout << "Erro: Sintaxe incorreta. Uso: carrega <nome-do-ficheiro>\n";
+    }
+}

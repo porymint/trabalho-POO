@@ -4,8 +4,8 @@
 
 #include "Ecra.h"
 #include "Fabrica.h"
+#include "Maquina.h"
 #include <iostream>
-
 
 using namespace std;
 
@@ -83,7 +83,12 @@ void Ecra::desenhaFabrica(const Fabrica& fabrica, int linhaInicio, int colunaIni
 
             if (t != nullptr) {
                 posicionaCursor(linhaInicio + l, colunaInicio + c);
-                escreve(t->getTipo());
+                const Maquina* m = t->getMaquina();
+                if (m != nullptr) {
+                    escreve(m->getSimbolo());
+                } else {
+                    escreve(t->getTipo());
+                }
             }
         }
     }

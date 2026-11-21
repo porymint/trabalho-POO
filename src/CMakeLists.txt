@@ -20,4 +20,6 @@ add_executable(TP
         ComandosTempo.cpp
         Comandos.cpp
         Ecra.cpp
-        Interpretador.cpp)
+        Interpretador.cpp
+        ComandosValidacaoFinal.cpp
+        ComandoEstado.cpp)

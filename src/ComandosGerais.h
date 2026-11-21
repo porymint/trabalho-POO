@@ -14,11 +14,4 @@ public:
     }
 };
 
-class ComandoFabrica : public Comando {
-public:
-    void executa(Fabrica& fabrica, const std::string& argumentos) override {
-        std::cout << "Comando fabrica invocado com os dados: " << argumentos << std::endl;
-    }
-};
-
 #endif //TP_COMANDOSGERAIS_H
