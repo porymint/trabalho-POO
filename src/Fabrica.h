@@ -6,7 +6,6 @@
 #define TP_FABRICA_H
 
 #include <string>
-#include <vector>
 
 class Maquina;
 
@@ -32,11 +31,20 @@ private:
 
     int instante;
     int creditos;
-    std::vector<Maquina*> maquinas;        // a Fabrica e dona das maquinas
-    std::vector<std::string> eventos;      // resumo do ultimo instante
+
+    // Arrays dinamicos geridos com new[]/delete[] (crescem por duplicacao).
+    Maquina** maquinas;          // a Fabrica e dona das maquinas apontadas
+    int numMaquinas;
+    int capacidadeMaquinas;
+
+    std::string* eventos;        // resumo do ultimo instante
+    int numEventos;
+    int capacidadeEventos;
 
     void alocaMemoria(int nl, int nc);
     void libertaMemoria();
+    void aumentaMaquinas();
+    void aumentaEventos();
 
 public:
     Fabrica(int nl = 0, int nc = 0);
@@ -60,7 +68,7 @@ public:
     void avancaInstante();
 
     // --- Maquinas ---
-    int getNumMaquinas() const { return static_cast<int>(maquinas.size()); }
+    int getNumMaquinas() const { return numMaquinas; }
     Maquina* getMaquinaPorIndice(int i) const;
     Maquina* getMaquina(int l, int c) const;
     // Fica com a posse da maquina se devolver true. Falha (e o chamador mantem a
@@ -69,9 +77,8 @@ public:
 
     // --- Resumo do ultimo instante (painel de estado) ---
     void registaEvento(const std::string& texto);
-    int getNumEventos() const { return static_cast<int>(eventos.size()); }
-    const std::string& getEvento(int i) const { return eventos[i]; }
-    const std::vector<std::string>& getEventos() const { return eventos; }
+    int getNumEventos() const { return numEventos; }
+    const std::string& getEvento(int i) const { return eventos[i]; }   // 0 <= i < getNumEventos()
 
     bool comprarMaquina(char tipo, int l, int c, char dir);
     bool venderMaquina(int l, int c);
