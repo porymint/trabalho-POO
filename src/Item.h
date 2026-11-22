@@ -7,7 +7,6 @@
 
 #include <string>
 
-// Coisa que circula pela fabrica. Vive sempre dentro de uma maquina.
 class Item {
 private:
     char simbolo;

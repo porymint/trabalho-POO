@@ -12,8 +12,6 @@
 using namespace std;
 
 namespace {
-    // Profundidade maxima de "executa" dentro de "executa" (evita recursao infinita
-    // quando um ficheiro se executa a si proprio).
     const int MAX_NIVEL_EXECUTA = 4;
 }
 

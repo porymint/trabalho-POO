@@ -7,10 +7,6 @@
 
 #include "Maquina.h"
 
-// Silo: guarda itens de qualquer tipo, sem limite de capacidade.
-// Armazenamento: lista ligada simples gerida a mao (fila FIFO). Cada item
-// guardado ocupa exatamente um no, logo nao se gasta mais memoria do que a
-// necessaria. Nao usa nenhuma colecao da biblioteca standard.
 class Silo : public Maquina {
 private:
     struct No {
@@ -21,10 +17,10 @@ private:
         No(const Item& i, int instante) : item(i), instanteEntrada(instante), seguinte(nullptr) {}
     };
 
-    No* primeiro;   // item guardado ha mais tempo
-    No* ultimo;     // item mais recente
+    No* primeiro;
+    No* ultimo;
     int quantidade;
-    int probabilidadePerda;   // percentagem
+    int probabilidadePerda;
 
     void acrescenta(const Item& item, int instante);
     void removePrimeiro();

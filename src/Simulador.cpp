@@ -20,9 +20,8 @@ int main() {
 
         if (!getline(cin, linha)) break;
 
-        // Mesmo caminho para comandos do teclado e de ficheiros (executa).
         Interpretador::executaLinha(contexto, linha);
     }
 
-    return 0;   // Fabrica (e as suas maquinas) sao libertadas pelos destrutores
+    return 0;
 }
